@@ -1,0 +1,218 @@
+Gramática
+
+    0 $accept: linea $end
+
+    1 linea: %empty
+    2      | linea exp EOL
+
+    3 exp: NUM
+    4    | exp MAS exp
+    5    | exp MEN exp
+    6    | exp MUL exp
+    7    | exp DIV exp
+    8    | APS exp CPS
+
+
+Terminales con las reglas donde aparecen
+
+    $end (0) 0
+    error (256)
+    NUM (258) 3
+    MAS (259) 4
+    MEN (260) 5
+    MUL (261) 6
+    DIV (262) 7
+    APS (263) 8
+    CPS (264) 8
+    EOL (265) 2
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (11)
+        on left: 0
+    linea (12)
+        on left: 1 2
+        on right: 0 2
+    exp (13)
+        on left: 3 4 5 6 7 8
+        on right: 2 4 5 6 7 8
+
+
+Estado 0
+
+    0 $accept: • linea $end
+
+    $default  reduce usando la regla 1 (linea)
+
+    linea  ir al estado 1
+
+
+Estado 1
+
+    0 $accept: linea • $end
+    2 linea: linea • exp EOL
+
+    $end  desplazar e ir al estado 2
+    NUM   desplazar e ir al estado 3
+    APS   desplazar e ir al estado 4
+
+    exp  ir al estado 5
+
+
+Estado 2
+
+    0 $accept: linea $end •
+
+    $default  aceptar
+
+
+Estado 3
+
+    3 exp: NUM •
+
+    $default  reduce usando la regla 3 (exp)
+
+
+Estado 4
+
+    8 exp: APS • exp CPS
+
+    NUM  desplazar e ir al estado 3
+    APS  desplazar e ir al estado 4
+
+    exp  ir al estado 6
+
+
+Estado 5
+
+    2 linea: linea exp • EOL
+    4 exp: exp • MAS exp
+    5    | exp • MEN exp
+    6    | exp • MUL exp
+    7    | exp • DIV exp
+
+    MAS  desplazar e ir al estado 7
+    MEN  desplazar e ir al estado 8
+    MUL  desplazar e ir al estado 9
+    DIV  desplazar e ir al estado 10
+    EOL  desplazar e ir al estado 11
+
+
+Estado 6
+
+    4 exp: exp • MAS exp
+    5    | exp • MEN exp
+    6    | exp • MUL exp
+    7    | exp • DIV exp
+    8    | APS exp • CPS
+
+    MAS  desplazar e ir al estado 7
+    MEN  desplazar e ir al estado 8
+    MUL  desplazar e ir al estado 9
+    DIV  desplazar e ir al estado 10
+    CPS  desplazar e ir al estado 12
+
+
+Estado 7
+
+    4 exp: exp MAS • exp
+
+    NUM  desplazar e ir al estado 3
+    APS  desplazar e ir al estado 4
+
+    exp  ir al estado 13
+
+
+Estado 8
+
+    5 exp: exp MEN • exp
+
+    NUM  desplazar e ir al estado 3
+    APS  desplazar e ir al estado 4
+
+    exp  ir al estado 14
+
+
+Estado 9
+
+    6 exp: exp MUL • exp
+
+    NUM  desplazar e ir al estado 3
+    APS  desplazar e ir al estado 4
+
+    exp  ir al estado 15
+
+
+Estado 10
+
+    7 exp: exp DIV • exp
+
+    NUM  desplazar e ir al estado 3
+    APS  desplazar e ir al estado 4
+
+    exp  ir al estado 16
+
+
+Estado 11
+
+    2 linea: linea exp EOL •
+
+    $default  reduce usando la regla 2 (linea)
+
+
+Estado 12
+
+    8 exp: APS exp CPS •
+
+    $default  reduce usando la regla 8 (exp)
+
+
+Estado 13
+
+    4 exp: exp • MAS exp
+    4    | exp MAS exp •
+    5    | exp • MEN exp
+    6    | exp • MUL exp
+    7    | exp • DIV exp
+
+    MUL  desplazar e ir al estado 9
+    DIV  desplazar e ir al estado 10
+
+    $default  reduce usando la regla 4 (exp)
+
+
+Estado 14
+
+    4 exp: exp • MAS exp
+    5    | exp • MEN exp
+    5    | exp MEN exp •
+    6    | exp • MUL exp
+    7    | exp • DIV exp
+
+    MUL  desplazar e ir al estado 9
+    DIV  desplazar e ir al estado 10
+
+    $default  reduce usando la regla 5 (exp)
+
+
+Estado 15
+
+    4 exp: exp • MAS exp
+    5    | exp • MEN exp
+    6    | exp • MUL exp
+    6    | exp MUL exp •
+    7    | exp • DIV exp
+
+    $default  reduce usando la regla 6 (exp)
+
+
+Estado 16
+
+    4 exp: exp • MAS exp
+    5    | exp • MEN exp
+    6    | exp • MUL exp
+    7    | exp • DIV exp
+    7    | exp DIV exp •
+
+    $default  reduce usando la regla 7 (exp)
